@@ -3,7 +3,6 @@
 create a new rust project with;
 
 cargo new name
-
 where name is the project name
 
 run a rust project with;

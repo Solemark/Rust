@@ -1,9 +1,9 @@
 fn main(){
     let arr: [i8; 9] = [1, 0, 10,
-                        10, 10, 0,
-                        1, 1, 1];
+                        10, 1, 0,
+                        1, 10, 1];
     println!("{}", display_board(&arr));
-    println!("{}", check_board(&arr, 7));
+    println!("{}", check_board(&arr, 0));
     //TODO implement interactivity
 }
 
@@ -34,69 +34,96 @@ fn display_board(arr: &[i8; 9]) -> String{
 }
 
 fn check_board(arr: &[i8; 9], last: usize) -> String{
-    //Can this be done programatically?
     let mut output: String = String::new();
-    match last{
-        0 => {
-            output.push_str(check_cells(arr[0], arr[1], arr[2]));
-            output.push_str(check_cells(arr[0], arr[3], arr[6]));
-            output.push_str(check_cells(arr[0], arr[4], arr[8]));
-        },
-        1 => {
-            output.push_str(check_cells(arr[0], arr[1], arr[2]));
-            output.push_str(check_cells(arr[1], arr[4], arr[7]));
-        },
-        2 => {
-            output.push_str(check_cells(arr[0], arr[1], arr[2]));
-            output.push_str(check_cells(arr[2], arr[5], arr[8]));
-            output.push_str(check_cells(arr[2], arr[4], arr[6]));
-        },
-        3 => {
-            output.push_str(check_cells(arr[0], arr[3], arr[6]));
-            output.push_str(check_cells(arr[3], arr[4], arr[5]));
-        },
-        4 => {
-            output.push_str(check_cells(arr[0], arr[4], arr[8]));
-            output.push_str(check_cells(arr[2], arr[4], arr[6]));
-            output.push_str(check_cells(arr[3], arr[4], arr[5]));
-            output.push_str(check_cells(arr[1], arr[4], arr[7]));
-        },
-        5 => {
-            output.push_str(check_cells(arr[2], arr[5], arr[8]));
-            output.push_str(check_cells(arr[3], arr[4], arr[5]));
-        },
-        6 => {
-            output.push_str(check_cells(arr[0], arr[3], arr[6]));
-            output.push_str(check_cells(arr[6], arr[7], arr[8]));
-            output.push_str(check_cells(arr[2], arr[4], arr[6]));
-        },
-        7 => {
-            output.push_str(check_cells(arr[1], arr[4], arr[7]));
-            output.push_str(check_cells(arr[6], arr[7], arr[8]));
-        },
-        8 => {
-            output.push_str(check_cells(arr[2], arr[5], arr[8]));
-            output.push_str(check_cells(arr[0], arr[4], arr[8]));
-            output.push_str(check_cells(arr[6], arr[7], arr[8]));
-        },
-        _ => output.push_str("no winner"),
+    if last == 4 {
+        output.push_str(check_cells(arr[3], arr[4], arr[5]));  //x
+        output.push_str(check_cells(arr[1], arr[4], arr[7]));  //y
+        output.push_str(check_cells(arr[0], arr[4], arr[8]));  //z1
+        output.push_str(check_cells(arr[2], arr[4], arr[6]));  //z2
+    } else{
+        let x1: i8;
+        let x2: i8;
+        let y1: i8;
+        let y2: i8;
+        let z: i8;
+        match last{
+            0 => {
+                x1 = arr[1];
+                x2 = arr[2];
+                y1 = arr[3];
+                y2 = arr[6];
+                z = arr[8];
+            },
+            1 => {
+                x1 = arr[0];
+                x2 = arr[2];
+                y1 = arr[4];
+                y2 = arr[7];
+                z = 0;
+            },
+            2 => {
+                x1 = arr[0];
+                x2 = arr[1];
+                y1 = arr[5];
+                y2 = arr[8];
+                z = arr[6];
+            },
+            3 => {
+                x1 = arr[4];
+                x2 = arr[5];
+                y1 = arr[0];
+                y2 = arr[6];
+                z = 0;
+            },
+            5 => {
+                x1 = arr[3];
+                x2 = arr[4];
+                y1 = arr[2];
+                y2 = arr[8];
+                z = 0;
+            },
+            6 => {
+                x1 = arr[7];
+                x2 = arr[8];
+                y1 = arr[0];
+                y2 = arr[3];
+                z = arr[2];
+            },
+            7 => {
+                x1 = arr[6];
+                x2 = arr[8];
+                y1 = arr[1];
+                y2 = arr[4];
+                z = 0;
+            },
+            8 => {
+                x1 = arr[6];
+                x2 = arr[7];
+                y1 = arr[2];
+                y2 = arr[5];
+                z = arr[0];
+            },
+            _ => {
+                x1 = 0;
+                x2 = 0;
+                y1 = 0;
+                y2 = 0;
+                z = 0;
+            }
+        }
+        output.push_str(check_cells(arr[last], x1, x2));    //x
+        output.push_str(check_cells(arr[last], y1, y2));   //y
+        output.push_str(check_cells(arr[last], arr[4], z));   //z
     }
     return output;
 }
 
 fn check_cells(a: i8, b: i8, c: i8) -> &'static str{
     match a + b + c{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
+        3 => return "crosses wins",
+        30 => return "noughts wins",
         _=> return ""
     }
-}
-
-fn crosses_win() -> &'static str {
-    return "crosses wins";
-}
-fn noughts_win() -> &'static str {
-    return "noughts wins";
 }
 
 #[cfg(test)]
@@ -142,6 +169,6 @@ mod test{
     fn test_no_winner(){
         assert_eq!(check_board(&[0, 0, 0,
                                 0, 0, 0,
-                                0, 0, 0], 9), "no winner");
+                                0, 0, 0], 0), "");
     }
 }

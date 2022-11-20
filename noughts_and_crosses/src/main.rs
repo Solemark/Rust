@@ -3,7 +3,7 @@ fn main(){
                         10, 10, 0,
                         1, 1, 1];
     println!("{}", display_board(&arr));
-    println!("{}", check_board(&arr));
+    println!("{}", check_board(&arr, 7));
     //TODO implement interactivity
 }
 
@@ -33,57 +33,70 @@ fn display_board(arr: &[i8; 9]) -> String{
     return output;
 }
 
-fn check_board(arr: &[i8; 9]) -> &str{
-    match arr[0] + arr[1] + arr[2]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
+fn check_board(arr: &[i8; 9], last: usize) -> String{
+    //Can this be done programatically?
+    let mut output: String = String::new();
+    match last{
+        0 => {
+            output.push_str(check_cells(arr[0], arr[1], arr[2]));
+            output.push_str(check_cells(arr[0], arr[3], arr[6]));
+            output.push_str(check_cells(arr[0], arr[4], arr[8]));
+        },
+        1 => {
+            output.push_str(check_cells(arr[0], arr[1], arr[2]));
+            output.push_str(check_cells(arr[1], arr[4], arr[7]));
+        },
+        2 => {
+            output.push_str(check_cells(arr[0], arr[1], arr[2]));
+            output.push_str(check_cells(arr[2], arr[5], arr[8]));
+            output.push_str(check_cells(arr[2], arr[4], arr[6]));
+        },
+        3 => {
+            output.push_str(check_cells(arr[0], arr[3], arr[6]));
+            output.push_str(check_cells(arr[3], arr[4], arr[5]));
+        },
+        4 => {
+            output.push_str(check_cells(arr[0], arr[4], arr[8]));
+            output.push_str(check_cells(arr[2], arr[4], arr[6]));
+            output.push_str(check_cells(arr[3], arr[4], arr[5]));
+            output.push_str(check_cells(arr[1], arr[4], arr[7]));
+        },
+        5 => {
+            output.push_str(check_cells(arr[2], arr[5], arr[8]));
+            output.push_str(check_cells(arr[3], arr[4], arr[5]));
+        },
+        6 => {
+            output.push_str(check_cells(arr[0], arr[3], arr[6]));
+            output.push_str(check_cells(arr[6], arr[7], arr[8]));
+            output.push_str(check_cells(arr[2], arr[4], arr[6]));
+        },
+        7 => {
+            output.push_str(check_cells(arr[1], arr[4], arr[7]));
+            output.push_str(check_cells(arr[6], arr[7], arr[8]));
+        },
+        8 => {
+            output.push_str(check_cells(arr[2], arr[5], arr[8]));
+            output.push_str(check_cells(arr[0], arr[4], arr[8]));
+            output.push_str(check_cells(arr[6], arr[7], arr[8]));
+        },
+        _ => output.push_str("no winner"),
     }
-    match arr[3] + arr[4] + arr[5]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
-    }
-    match arr[6] + arr[7] + arr[8]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
-    }
+    return output;
+}
 
-    match arr[0] + arr[3] + arr[6]{
+fn check_cells(a: i8, b: i8, c: i8) -> &'static str{
+    match a + b + c{
         3 => return crosses_win(),
         30 => return noughts_win(),
-        _ => print!("")
+        _=> return ""
     }
-    match arr[1] + arr[4] + arr[7]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
-    }
-    match arr[2] + arr[5] + arr[8]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
-    }
-
-    match arr[0] + arr[4] + arr[8]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
-    }
-    match arr[2] + arr[4] + arr[6]{
-        3 => return crosses_win(),
-        30 => return noughts_win(),
-        _ => print!("")
-    }
-    return "no winner";
 }
 
 fn crosses_win() -> &'static str {
-    return "crosses win";
+    return "crosses wins";
 }
 fn noughts_win() -> &'static str {
-    return "noughts win";
+    return "noughts wins";
 }
 
 #[cfg(test)]
@@ -93,42 +106,42 @@ mod test{
     fn test_crosses_row(){
         assert_eq!(check_board(&[1, 1, 1,
                                 0, 0, 0, 
-                                0, 0, 0]), "crosses wins");
+                                0, 0, 0], 0), "crosses wins");
     }
     #[test]
     fn test_noughts_row(){
     assert_eq!(check_board(&[10, 10, 10,
                             0, 0, 0, 
-                            0, 0, 0]), "noughts wins");
+                            0, 0, 0], 0), "noughts wins");
     }
     #[test]
     fn test_crosses_col(){
         assert_eq!(check_board(&[1, 0, 0,
                                 1, 0, 0,
-                                1, 0, 0]), "crosses wins");
+                                1, 0, 0], 0), "crosses wins");
     }
     #[test]
     fn test_noughts_col(){
         assert_eq!(check_board(&[10, 0, 0,
                                 10, 0, 0,
-                                10, 0, 0]), "noughts wins");
+                                10, 0, 0], 0), "noughts wins");
     }
     #[test]
     fn test_crosses_diag(){
         assert_eq!(check_board(&[1, 0, 0,
                                 0, 1, 0,
-                                0, 0, 1]), "crosses wins");
+                                0, 0, 1], 0), "crosses wins");
     }
     #[test]
     fn test_noughts_diag(){
         assert_eq!(check_board(&[10, 0, 0,
                                 0, 10, 0,
-                                0, 0, 10]), "noughts wins");
+                                0, 0, 10], 0), "noughts wins");
     }
     #[test]
     fn test_no_winner(){
         assert_eq!(check_board(&[0, 0, 0,
                                 0, 0, 0,
-                                0, 0, 0]), "no winner");
+                                0, 0, 0], 9), "no winner");
     }
 }

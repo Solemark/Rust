@@ -5,10 +5,11 @@ fn main(){
 
 fn cli(){
     let mut arr: [i8; 9] = [0, 0, 0,
-                        0, 0, 0,
-                        0, 0, 0];
-    let array_key = "0, 1, 2,\n3, 4, 5,\n6, 7, 8";
+                            0, 0, 0,
+                            0, 0, 0];
+    let array_key: &str = "0, 1, 2,\n3, 4, 5,\n6, 7, 8";
     let mut flag: bool = true;
+    let mut result: String;
     
     loop{
         let mut pos: String = String::new();
@@ -22,7 +23,11 @@ fn cli(){
             arr[pos] = 10;
         }
         flag = !flag;
-        println!("{}", check_board(&arr, pos));
+        result = check_board(&arr, pos);
+        if result != "" {
+            println!("{}", result);
+            break;
+        }
     }
 }
 

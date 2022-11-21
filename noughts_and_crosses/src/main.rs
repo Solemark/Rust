@@ -7,14 +7,14 @@ fn cli(){
     let mut arr: [i8; 9] = [0, 0, 0,
                             0, 0, 0,
                             0, 0, 0];
-    let array_key: &str = "0, 1, 2,\n3, 4, 5,\n6, 7, 8";
+    let game_key: &str = "0 | 1 | 2\n3 | 4 | 5\n6 | 7 | 8";
     let mut flag: bool = true;
     let mut result: String;
     
     loop{
         let mut pos: String = String::new();
         println!("{}", draw_board(&arr));
-        println!("Enter the position of the next move\n{}", array_key);
+        println!("Enter the position of the next move\n{}", game_key);
         read(&mut pos);
         let pos: usize = pos.trim().parse().unwrap();
         if flag{

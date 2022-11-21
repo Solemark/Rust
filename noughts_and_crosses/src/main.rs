@@ -1,13 +1,39 @@
+use std::io::{stdin, stdout, Write};
 fn main(){
-    let arr: [i8; 9] = [1, 0, 10,
-                        10, 1, 0,
-                        1, 10, 1];
-    println!("{}", display_board(&arr));
-    println!("{}", check_board(&arr, 0));
-    //TODO implement interactivity
+    cli();
 }
 
-fn display_board(arr: &[i8; 9]) -> String{
+fn cli(){
+    let mut arr: [i8; 9] = [0, 0, 0,
+                        0, 0, 0,
+                        0, 0, 0];
+    let array_key = "0, 1, 2,\n3, 4, 5,\n6, 7, 8";
+    let mut flag: bool = true;
+    
+    loop{
+        let mut pos: String = String::new();
+        println!("{}", draw_board(&arr));
+        println!("Enter the position of the next move\n{}", array_key);
+        read(&mut pos);
+        let pos: usize = pos.trim().parse().unwrap();
+        if flag{
+            arr[pos] = 1;
+        } else{
+            arr[pos] = 10;
+        }
+        flag = !flag;
+        println!("{}", check_board(&arr, pos));
+    }
+}
+
+fn read(input: &mut String){
+    stdout().flush()
+        .expect("failed to flush!");
+    stdin().read_line(input)
+        .expect("Failed to read!");
+}
+
+fn draw_board(arr: &[i8; 9]) -> String{
     let mut output: String = String::new();
     let mut s: &str = "";
     let mut i: usize = 0;

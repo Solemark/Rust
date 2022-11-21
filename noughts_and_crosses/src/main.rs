@@ -25,6 +25,7 @@ fn cli(){
         flag = !flag;
         result = check_board(&arr, pos);
         if result != "" {
+            println!("{}", draw_board(&arr));
             println!("{}", result);
             break;
         }
@@ -43,17 +44,14 @@ fn draw_board(arr: &[i8; 9]) -> String{
     let mut s: &str = "";
     let mut i: usize = 0;
     while i <= 8{
-        if arr[i] == 1 {
-            s = "|X|";
-        }
-        if arr[i] == 10 {
-            s = "|O|";
-        }
-        if arr[i] == 0 {
-            s = "|_|";
+        match arr[i] {
+            1 => {s = "|X|";},
+            10 => {s = "|O|";},
+            0 => {s = "|_|";},
+            _ => println!("Unknown board type!")
         }
         output.push_str(s);
-
+    
         s = "";
         if (i + 1) % 3 == 0 {
             s = "\n";

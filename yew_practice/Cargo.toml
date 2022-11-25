@@ -1,0 +1,12 @@
+[package]
+name = "yew-app"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+# you can check the latest version here: https://crates.io/crates/yew
+yew = "0.19"
+yew-router = "0.16"
+gloo-net = "0.2.4"
+serde = "1.0.147"
+wasm-bindgen-futures = "0.4.33"

@@ -1,2 +1,0 @@
-start with;
-    trunk serve

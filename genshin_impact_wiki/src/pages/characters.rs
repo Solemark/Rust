@@ -4,7 +4,7 @@ use yew::prelude::*;
 pub fn characters() -> Html{
     html!(
         <div>
-            {"Characters"}
+            {"Character Page"}
         </div>
     )
 }

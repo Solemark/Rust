@@ -25,7 +25,7 @@ enum Route{
     NotFound
 }
 
-fn switch(routes: &Route) -> Html{
+fn switch(routes: Route) -> Html{
     match routes{
         Route::Home => html!{<Home />},
         Route::Characters => html!{<Characters />},
@@ -41,11 +41,12 @@ pub fn app() -> Html{
         <div class="container">
             <Navbar />
             <BrowserRouter>
-                <Switch<Route> render={Switch::render(switch)} />
+                <Switch<Route> render={switch} />
             </BrowserRouter>
         </div>
     }
 }
 fn main() {
-    yew::start_app::<App>();
+    //yew::start_app::<App>();
+    yew::Renderer::<App>::new().render();
 }

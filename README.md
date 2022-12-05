@@ -1,9 +1,8 @@
-# rust-practice
+rust-practice
 
 create a new rust project with;
 
-cargo new name
-
+  cargo new name
 
 run a rust project with;
 

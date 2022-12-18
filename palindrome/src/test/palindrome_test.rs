@@ -4,12 +4,10 @@ mod tests{
 
     #[test]
     fn test_check_palindrome(){
-        let input: String = String::from("DAD");
-        assert_eq!(check_palindrome(&input), true);
+        assert_eq!(check_palindrome("DAD".to_string()), true);
     }
     #[test]
     fn test_check_case_sensitivity(){
-        let input: String = String::from("Dad");
-        assert_eq!(check_palindrome(&input), false);
+        assert_eq!(check_palindrome("Dad".to_string()), false);
     }
 }

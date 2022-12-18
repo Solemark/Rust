@@ -1,18 +1,19 @@
 mod test;
 
-fn main() {
-    let input: String = String::from("DAD");
-    println!("{}", check_palindrome(&input));
-}
-
-fn check_palindrome(input: &String) -> bool{
-    if input == &reverse_string(&input) {
-        return true;
-    } else{
-        return false;
+fn check_palindrome(input: String) -> bool{
+    let mut i: usize = 0;
+    let mut c: usize = ((&input.chars().count() - 1)).try_into().unwrap();
+    while i <= c {
+        if input.chars().nth(i).unwrap() != input.chars().nth(c).unwrap() {
+            return false;
+        }
+        i += 1;
+        c -= 1;
     }
+    true
 }
 
-fn reverse_string(s: &str) -> String{
-    return s.chars().rev().collect();
+fn main() {
+    println!("{}", check_palindrome("ABCDCBA".to_string()));
+    println!("{}", check_palindrome("ABCDcba".to_string()));
 }

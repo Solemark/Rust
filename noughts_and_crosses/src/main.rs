@@ -1,66 +1,12 @@
 use std::io::{stdin, stdout, Write};
 mod test;
-fn main(){
-    cli();
-}
 
-fn cli(){
-    let mut arr: [i8; 9] = [0, 0, 0,
-                            0, 0, 0,
-                            0, 0, 0];
-    let game_key: &str = "0 | 1 | 2\n3 | 4 | 5\n6 | 7 | 8";
-    let mut flag: bool = true;
-    let mut result: String;
-    
-    loop{
-        let mut pos: String = String::new();
-        println!("{}", draw_board(&arr));
-        println!("Enter the position of the next move\n{}", game_key);
-        read(&mut pos);
-        let pos: usize = pos.trim().parse().unwrap();
-        if flag{
-            arr[pos] = 1;
-        } else{
-            arr[pos] = 10;
-        }
-        flag = !flag;
-        result = check_board(&arr, pos);
-        if result != "" {
-            println!("{}", draw_board(&arr));
-            println!("{}", result);
-            break;
-        }
+fn check_cells(a: i8, b: i8, c: i8) -> &'static str{
+    match a + b + c{
+        3 => return "crosses wins",
+        30 => return "noughts wins",
+        _=> return ""
     }
-}
-
-fn read(input: &mut String){
-    stdout().flush()
-        .expect("failed to flush!");
-    stdin().read_line(input)
-        .expect("Failed to read!");
-}
-
-fn draw_board(arr: &[i8; 9]) -> String{
-    let mut output: String = String::new();
-    let mut s: &str = "";
-    let mut i: usize = 0;
-    while i <= 8{
-        match arr[i] {
-            1 => {s = "|X|";},
-            10 => {s = "|O|";},
-            0 => {s = "|_|";},
-            _ => println!("Unknown board type!")
-        }
-        output.push_str(s);
-    
-        s = "";
-        if (i + 1) % 3 == 0 {
-            s = "\n";
-        } 
-        output.push_str(s);
-        i+=1;
-    }
-    return output;
 }
 
 fn check_board(arr: &[i8; 9], last: usize) -> String{
@@ -148,10 +94,65 @@ fn check_board(arr: &[i8; 9], last: usize) -> String{
     return output;
 }
 
-fn check_cells(a: i8, b: i8, c: i8) -> &'static str{
-    match a + b + c{
-        3 => return "crosses wins",
-        30 => return "noughts wins",
-        _=> return ""
+fn draw_board(arr: &[i8; 9]) -> String{
+    let mut output: String = String::new();
+    let mut s: &str = "";
+    let mut i: usize = 0;
+    while i <= 8{
+        match arr[i] {
+            1 => {s = "|X|";},
+            10 => {s = "|O|";},
+            0 => {s = "|_|";},
+            _ => println!("Unknown board type!")
+        }
+        output.push_str(s);
+    
+        s = "";
+        if (i + 1) % 3 == 0 {
+            s = "\n";
+        } 
+        output.push_str(s);
+        i+=1;
     }
+    return output;
+}
+
+fn read(input: &mut String){
+    stdout().flush()
+        .expect("failed to flush!");
+    stdin().read_line(input)
+        .expect("Failed to read!");
+}
+
+fn cli(){
+    let mut arr: [i8; 9] = [0, 0, 0,
+                            0, 0, 0,
+                            0, 0, 0];
+    let game_key: &str = "0 | 1 | 2\n3 | 4 | 5\n6 | 7 | 8";
+    let mut flag: bool = true;
+    let mut result: String;
+    
+    loop{
+        let mut pos: String = String::new();
+        println!("{}", draw_board(&arr));
+        println!("Enter the position of the next move\n{}", game_key);
+        read(&mut pos);
+        let pos: usize = pos.trim().parse().unwrap();
+        if flag{
+            arr[pos] = 1;
+        } else{
+            arr[pos] = 10;
+        }
+        flag = !flag;
+        result = check_board(&arr, pos);
+        if result != "" {
+            println!("{}", draw_board(&arr));
+            println!("{}", result);
+            break;
+        }
+    }
+}
+
+fn main(){
+    cli();
 }

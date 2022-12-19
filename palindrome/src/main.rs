@@ -10,7 +10,7 @@ fn check_palindrome(input: String) -> bool{
         i += 1;
         c -= 1;
     }
-    true
+    return true;
 }
 
 fn main() {

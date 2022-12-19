@@ -1,5 +1,9 @@
 mod test;
 
+fn convert_distance(a: f32, b: f32) -> f32{
+    return a * b;
+}
+
 fn main() {
     let km: f32 = 10.0;
     let m: f32 = 10.0;
@@ -8,8 +12,4 @@ fn main() {
 
     println!("10km = {}m", convert_distance(km, ktm));
     println!("10m = {}km", convert_distance(m, mtk));
-}
-
-fn convert_distance(a: f32, b: f32) -> f32{
-    return a * b;
 }

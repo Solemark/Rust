@@ -1,29 +1,25 @@
 mod test;
 
-fn main() {
-    println!("{}", fizz_buzz(3, 5, 20));
+fn fizz_buzz(fizz: i8, buzz: i8, max: i8) -> String{
+    let mut output: String = "".to_string();
+    let mut i: i8 = 1;
+
+    while i <= max {
+        if 0 == i % fizz {
+            output += "fizz";
+        }
+        if 0 == i % buzz {
+            output += "buzz";
+        }
+        if !output.ends_with("z"){
+            output += &i.to_string();
+        }
+        output += "\n";
+        i += 1;
+    }
+    output
 }
 
-fn fizz_buzz(fizz: i32, buzz: i32, max: i32) -> String{
-    let mut output: String = String::new();
-    let mut s: String = String::new();
-    let mut a: String;
-    let mut i: i32 = 1;
-    while &i<= &max{
-        s.drain(..);
-        if i % fizz == 0{
-            s.push_str("fizz");
-        }
-        if i % buzz == 0{
-            s.push_str("buzz");
-        }
-        if s == ""{
-            a = i.to_string();
-            s.push_str(&a);
-        }
-        s.push_str("\n");
-        output.push_str(&s);
-        i+=1;
-    }
-    return output;
+fn main() {
+    println!("{}", fizz_buzz(3, 5, 20));
 }
